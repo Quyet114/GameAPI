@@ -12,9 +12,9 @@ mongoose.set('strictQuery', true);
 const mongoURI = process.env.MONGODB_URI;
 const app = express();
 
-mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true }
-).then(() => console.log("Connected to Mongo Successfully"))
-.catch(error);
+mongoose.connect(mongoURI,()=>{
+    console.log("connect successfuly");
+});
 
 app.use(cors());
 app.use(cookieParser());
