@@ -14,7 +14,7 @@ const app = express();
 
 mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true }
 ).then(() => console.log("Connected to Mongo Successfully"))
-.catch(error => handleError(error));
+.catch(error);
 
 app.use(cors());
 app.use(cookieParser());
