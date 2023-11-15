@@ -8,6 +8,7 @@ const userRoute = require("./router/user");
 
 
 dotenv.config();
+mongoose.set('strictQuery', true);
 const mongoURI = process.env.MONGODB_URI;
 const app = express();
 
