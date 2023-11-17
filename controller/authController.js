@@ -11,16 +11,16 @@ const secretKey = process.env.JWT_ACCESS_KEY;
 
 const authController = {
     //register
-    registerUser: async(req,res,next)=>{
+    registerUser: async (req, res, next) => {
         try {
             const salt = await bcrypt.genSalt(10);
-            const hashed = await bcrypt.hash(req.body.password,salt);
+            const hashed = await bcrypt.hash(req.body.password, salt);
 
             const newUser = await new User({
                 username: req.body.username,
-                email:req.body.email,
-                password:hashed,
-                gold:req.body.gold
+                email: req.body.email,
+                password: hashed,
+                gold: req.body.gold
             });
             const user = await newUser.save();
             res.status(200).json(user);
@@ -29,10 +29,10 @@ const authController = {
         }
     },
     //login
-    loginUser: async(req,res,next)=>{
+    loginUser: async (req, res, next) => {
         try {
-            const user = await User.findOne({username:req.body.username});
-            if(!user){
+            const user = await User.findOne({ username: req.body.username });
+            if (!user) {
                 res.status(404).json("Wrong username!");
 
             }
@@ -40,24 +40,25 @@ const authController = {
                 req.body.password,
                 user.password
             )
-            if(!validPassword){
+            if (!validPassword) {
                 res.status(404).json("Wrong passord!");
             }
-            if(user && validPassword){
+            if (user && validPassword) {
                 const AccessToken = jwt.sign({
                     id: user.id,
                     admin: user.admin
-                },secretKey,
-                {expiresIn:"90s"}
+                }, secretKey,
+                    { expiresIn: "90s" }
                 )
                 //dont show password
-                const {password,...others} = user._doc;
-                res.status(200).json({user,AccessToken});
+                const { password, ...others } = user._doc;
+                res.status(200).json({ user, AccessToken });
             };
         } catch (error) {
             res.status(500).json(error);
             console.log(error);
         }
-    }
+    },
+
 }
 module.exports = authController;
