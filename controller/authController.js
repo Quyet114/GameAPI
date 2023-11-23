@@ -1,5 +1,5 @@
 
-const User = require("../models/User");
+const {User} = require("../models/User");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
@@ -46,7 +46,7 @@ const authController = {
             if (user && validPassword) {
                 const AccessToken = jwt.sign({
                     id: user.id,
-                    admin: user.admin
+                    isAdmin: user.isAdmin,
                 }, secretKey,
                     { expiresIn: "90s" }
                 )
@@ -58,6 +58,12 @@ const authController = {
             res.status(500).json(error);
             console.log(error);
         }
+    },
+    //LOG OUT
+    logOut: async (req, res) => {
+        //Clear cookies when user logs out
+        res.clearCookie("refreshToken");
+        res.status(200).json("Logged out successfully!");
     },
 
 }

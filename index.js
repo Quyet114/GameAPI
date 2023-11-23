@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
 const authRoute = require("./router/auth");
 const userRoute = require("./router/user");
+const passwordRoute = require("./router/password");
 
 
 dotenv.config();
@@ -28,8 +29,9 @@ app.use(cookieParser());
 app.use(express.json());
 
 //Routes
-app.use("/v1/auth", authRoute);
+app.use("/v1/auth/", authRoute);
 app.use("/v1/user", userRoute);
+app.use("/v1/password", passwordRoute);
 app.listen(8000, () => {
     console.log("server is running");
 })
