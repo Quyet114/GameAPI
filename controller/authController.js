@@ -19,11 +19,15 @@ const authController = {
             const newUser = await new User({
                 username: req.body.username,
                 email: req.body.email,
-                password: hashed,
-                gold: req.body.gold
+                password: hashed
             });
             const user = await newUser.save();
-            res.status(200).json(user);
+            const body ={
+                notification:"Đăng ký tài khoản thành công",
+                status:1,
+                user: user.username
+            }
+            res.status(200).json(body);
         } catch (error) {
             res.status(500).json(error);
         }
@@ -50,9 +54,21 @@ const authController = {
                 }, secretKey,
                     { expiresIn: "90s" }
                 )
+                const body = {
+                    status:1,
+                    notification:"Đăng nhập thành công!",
+                    username: user.username,
+                    email:user.email,
+                    score:user.score,
+                    positionX: user.positionX,
+                    positionY: user.positionY,
+                    positionZ: user.positionZ,
+                    Token:AccessToken
+                }
+
                 //dont show password
                 const { password, ...others } = user._doc;
-                res.status(200).json({ user, AccessToken });
+                res.status(200).json(body);
             };
         } catch (error) {
             res.status(500).json(error);

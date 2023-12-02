@@ -63,5 +63,59 @@ const userController = {
             console.log(error);
         }
     },
+    // lưu điểm
+    updateScore: async(req,res,next)=>{
+        try {
+            const { email, score } = req.body;
+            // Tìm người dùng theo email và cập nhật điểm số
+            const updatedUser = await User.findOneAndUpdate(
+                { email: email },
+                { $set: { score: score } },
+                { new: true }
+            );
+    
+            if (!updatedUser) {
+                return res.status(404).json({ message: 'Không tìm thấy người dùng' });
+            }
+            const body = {
+                notification:" Lưu điểm thành công",
+                status:1,
+                username:updatedUser.username,
+                score:updatedUser.score
+            }
+    
+            return res.status(200).json(body);
+        } catch (err) {
+            return res.status(500).json({ message: 'Đã xảy ra lỗi khi cập nhật điểm số', error: err });
+        }
+    },
+    savePosition: async(req,res,next)=>{
+        try {
+            const { email, positionX,positionY,positionZ } = req.body;
+            // Tìm người dùng theo email và cập nhật điểm số
+            const updatedUser = await User.findOneAndUpdate(
+                { email: email },
+                { $set: { positionX: positionX, positionY: positionY, positionZ: positionZ } },
+                { new: true }
+            );
+    
+            if (!updatedUser) {
+                return res.status(404).json({ message: 'Không tìm thấy người dùng' });
+            }
+            const body = {
+                notification:" Lưu vị trí thành công",
+                status:1,
+                username:updatedUser.username,
+                positionX: updatedUser.positionX,
+                positionY: updatedUser.positionY,
+                positionZ: updatedUser.positionZ,
+
+            }
+    
+            return res.status(200).json(body);
+        } catch (err) {
+            return res.status(500).json({ message: 'Đã xảy ra lỗi khi cập nhật điểm số', error: err });
+        }
+    },
 }
 module.exports = userController;

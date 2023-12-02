@@ -26,17 +26,12 @@ const userSchema = new mongoose.Schema({
         minlegth: 6,
         maxlegth: 20,
     },
-    about: {
-        type: String,
-        default: "I'm a new user",
-    },
-    isAdmin: {
-        type: Boolean,
-        default: false,
-    },
-    gold: {
+    score: {
         type: Number,
-    }
+    },
+    positionX: {type: String,default:""},
+    positionY: {type: String,default:""},
+    positionZ: {type: String,default:""}
 }, { timestamps: true });
 
 const User = mongoose.model("User", userSchema);
