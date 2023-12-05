@@ -63,7 +63,8 @@ const authController = {
                     positionX: user.positionX,
                     positionY: user.positionY,
                     positionZ: user.positionZ,
-                    Token:AccessToken
+                    Token:AccessToken,
+                    profilePicture:user.profilePicture
                 }
 
                 //dont show password
